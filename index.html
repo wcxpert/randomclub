@@ -65,7 +65,7 @@
       <div class="logo">FR</div>
       <div>
         <h1>Football Club Randomiser</h1>
-        <p class="lead">Pick a league (or several) and press <strong>Randomise</strong>. Rapid preview for 5 seconds, then land on a club.</p>
+        <p class="lead">Pick a league (or several) and press <strong>Randomise</strong>. Rapid preview for 1-10 seconds, then land on a club.</p>
       </div>
     </header>
 
@@ -92,7 +92,7 @@
         <div>
           <div style="display:flex;justify-content:space-between;align-items:center">
             <strong>Leagues</strong>
-            <span class="muted">Data comes from separate JS files. Fallback sample included.</span>
+            <span class="muted"> </span>
           </div>
           <p class="muted" style="margin:6px 0 0">Toggle leagues to include them in the pool.</p>
         </div>
@@ -111,7 +111,7 @@
           <button class="btn btn-settings" id="closeSettings">Close</button>
         </div>
 
-        <div style="margin-top:8px" class="muted">Tip: Put your league JS files into a <code>/leagues/</code> folder next to this HTML named like <code>premier-league.js</code>. See the top of this file for example contents.</div>
+        <div style="margin-top:8px" class="muted"> </div>
       </aside>
     </main>
 
@@ -143,41 +143,140 @@
   -->
 
   <script>
-  // Built-in sample data (fallback) - still used if external league files not found
-  const FALLBACK_LEAGUES = {
-    premier: {
-      id: 'premier',
-      label: 'Premier League',
-      file: 'leagues/premier-league.js',
-      clubs: [
-        {name:'Manchester United', short:'MUN'},
-        {name:'Liverpool', short:'LIV'},
-        {name:'Chelsea', short:'CHE'},
-        {name:'Arsenal', short:'ARS'},
-        {name:'Manchester City', short:'MCI'},
-      ]
-    },
-    laliga: {
-      id: 'laliga',
-      label: 'La Liga',
-      file: 'leagues/la-liga.js',
-      clubs: [
-        {name:'Real Madrid', short:'RMA'},
-        {name:'Barcelona', short:'BAR'},
-        {name:'Atletico Madrid', short:'ATM'},
-      ]
-    },
-    seriea: {
-      id: 'seriea',
-      label: 'Serie A',
-      file: 'leagues/serie-a.js',
-      clubs: [
-        {name:'Juventus', short:'JUV'},
-        {name:'AC Milan', short:'ACM'},
-        {name:'Inter Milan', short:'INT'},
-      ]
-    }
-  };
+const FALLBACK_LEAGUES = {
+  premier: {
+    id: "premier",
+    label: "Premier League",
+    file: "leagues/premier-league.js",
+    clubs: [
+      { name: "Liverpool", short: "LIV" },
+      { name: "Manchester City", short: "MCI" },
+      { name: "Arsenal", short: "ARS" },
+      { name: "Chelsea", short: "CHE" },
+      { name: "Tottenham Hotspur", short: "TOT" },
+      { name: "Everton", short: "EVE" },
+      { name: "Manchester United", short: "MUN" },
+      { name: "Newcastle United", short: "NEW" },
+      { name: "Aston Villa", short: "AVL" },
+      { name: "Brighton & Hove Albion", short: "BHA" },
+      { name: "West Ham United", short: "WHU" },
+      { name: "Bournemouth", short: "BOU" },
+      { name: "Crystal Palace", short: "CRY" },
+      { name: "Brentford", short: "BRE" },
+      { name: "Fulham", short: "FUL" },
+      { name: "Leeds United", short: "LEE" },
+      { name: "Burnley", short: "BUR" },
+      { name: "Sunderland", short: "SUN" },
+      { name: "Wolves", short: "WOL" },
+      { name: "Nottingham Forest", short: "NFO" }
+    ]
+  },
+  laliga: {
+    id: "laliga",
+    label: "La Liga",
+    file: "leagues/la-liga.js",
+    clubs: [
+      { name: "Real Madrid", short: "RMA" },
+      { name: "Barcelona", short: "BAR" },
+      { name: "Atlético de Madrid", short: "ATM" },
+      { name: "Athletic Bilbao", short: "ATH" },
+      { name: "Real Sociedad", short: "RSO" },
+      { name: "Villarreal", short: "VIL" },
+      { name: "Sevilla", short: "SEV" },
+      { name: "Real Betis", short: "BET" },
+      { name: "Valencia", short: "VAL" },
+      { name: "Girona", short: "GIR" },
+      { name: "Celta de Vigo", short: "CEL" },
+      { name: "Getafe", short: "GET" },
+      { name: "Rayo Vallecano", short: "RAY" },
+      { name: "Mallorca", short: "MLL" },
+      { name: "Levante", short: "LEV" },
+      { name: "Elche", short: "ELC" },
+      { name: "Oviedo", short: "OVI" },
+      { name: "Alavés", short: "ALA" },
+      { name: "Osasuna", short: "OSA" },
+      { name: "Espanyol", short: "ESP" }
+    ]
+  },
+  bundesliga: {
+    id: "bundesliga",
+    label: "Bundesliga",
+    file: "leagues/bundesliga.js",
+    clubs: [
+      { name: "Bayern Munich", short: "FCB" },
+      { name: "Borussia Dortmund", short: "BVB" },
+      { name: "Bayer Leverkusen", short: "B04" },
+      { name: "RB Leipzig", short: "RBL" },
+      { name: "Eintracht Frankfurt", short: "SGE" },
+      { name: "VfB Stuttgart", short: "VFB" },
+      { name: "VfL Wolfsburg", short: "WOB" },
+      { name: "Werder Bremen", short: "SVW" },
+      { name: "TSG Hoffenheim", short: "TSG" },
+      { name: "Borussia Mönchengladbach", short: "BMG" },
+      { name: "Union Berlin", short: "FCU" },
+      { name: "FC Augsburg", short: "FCA" },
+      { name: "1. FC Köln", short: "KOE" },
+      { name: "SC Freiburg", short: "SCF" },
+      { name: "Mainz 05", short: "M05" },
+      { name: "Hamburger SV", short: "HSV" },
+      { name: "1. FC Heidenheim", short: "HDH" },
+      { name: "FC St. Pauli", short: "STP" }
+    ]
+  },
+  seriea: {
+    id: "seriea",
+    label: "Serie A",
+    file: "leagues/serie-a.js",
+    clubs: [
+      { name: "Napoli", short: "NAP" },
+      { name: "Juventus", short: "JUV" },
+      { name: "Inter Milan", short: "INT" },
+      { name: "AC Milan", short: "MIL" },
+      { name: "AS Roma", short: "ROM" },
+      { name: "Atalanta", short: "ATA" },
+      { name: "Lazio", short: "LAZ" },
+      { name: "Fiorentina", short: "FIO" },
+      { name: "Udinese", short: "UDI" },
+      { name: "Bologna", short: "BOL" },
+      { name: "Torino", short: "TOR" },
+      { name: "Sassuolo", short: "SAS" },
+      { name: "Como", short: "COM" },
+      { name: "Cremonese", short: "CRE" },
+      { name: "Lecce", short: "LEC" },
+      { name: "Parma", short: "PAR" },
+      { name: "Genoa", short: "GEN" },
+      { name: "Pisa", short: "PIS" },
+      { name: "Cagliari", short: "CAG" },
+      { name: "Hellas Verona", short: "VER" }
+    ]
+  },
+  ligue1: {
+    id: "ligue1",
+    label: "Ligue 1",
+    file: "leagues/ligue-1.js",
+    clubs: [
+      { name: "Paris Saint-Germain", short: "PSG" },
+      { name: "Lyon", short: "OL" },
+      { name: "Lille", short: "LIL" },
+      { name: "Monaco", short: "ASM" },
+      { name: "Lens", short: "LEN" },
+      { name: "Marseille", short: "OM" },
+      { name: "Nice", short: "NCE" },
+      { name: "Nantes", short: "NAN" },
+      { name: "Rennes", short: "REN" },
+      { name: "Strasbourg", short: "STR" },
+      { name: "Angers", short: "ANG" },
+      { name: "Auxerre", short: "AUX" },
+      { name: "Brest", short: "BRE" },
+      { name: "Le Havre", short: "HAC" },
+      { name: "Lorient", short: "LOR" },
+      { name: "Metz", short: "MET" },
+      { name: "Paris FC", short: "PFC" },
+      { name: "Toulouse", short: "TOU" }
+    ]
+  }
+};
+
 
   // App state
   const state = {
