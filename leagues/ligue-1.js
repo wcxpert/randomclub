@@ -1,10 +1,10 @@
 window.LEAGUE_ligue1 = [
   { name: "Paris Saint-Germain", short: "PSG", image: "images/psg.png" },
-  { name: "Lyon", short: "OL", image: "images/lyon.png" },
-  { name: "Lille", short: "LIL", image: "images/lille.png" },
+  { name: "Lyon", short: "OL", image: "images/ol.png" },
+  { name: "Lille", short: "LIL", image: "images/losc.png" },
   { name: "Monaco", short: "ASM", image: "images/monaco.png" },
   { name: "Lens", short: "LEN", image: "images/lens.png" },
-  { name: "Marseille", short: "OM", image: "images/marseille.png" },
+  { name: "Marseille", short: "OM", image: "images/om.png" },
   { name: "Nice", short: "NCE", image: "images/nice.png" },
   { name: "Nantes", short: "NAN", image: "images/nantes.png" },
   { name: "Rennes", short: "REN", image: "images/rennes.png" },
