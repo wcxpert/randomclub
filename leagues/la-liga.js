@@ -1,0 +1,22 @@
+window.LEAGUE_laliga = [
+  { name: "Real Madrid", short: "RMA", image: "images/real_madrid.png" },
+  { name: "Barcelona", short: "BAR", image: "images/barcelona.png" },
+  { name: "Atlético de Madrid", short: "ATM", image: "images/atletico.png" },
+  { name: "Athletic Bilbao", short: "ATH", image: "images/athletic.png" },
+  { name: "Real Sociedad", short: "RSO", image: "images/real_sociedad.png" },
+  { name: "Villarreal", short: "VIL", image: "images/villarreal.png" },
+  { name: "Sevilla", short: "SEV", image: "images/sevilla.png" },
+  { name: "Real Betis", short: "BET", image: "images/betis.png" },
+  { name: "Valencia", short: "VAL", image: "images/valencia.png" },
+  { name: "Girona", short: "GIR", image: "images/girona.png" },
+  { name: "Celta de Vigo", short: "CEL", image: "images/celta.png" },
+  { name: "Getafe", short: "GET", image: "images/getafe.png" },
+  { name: "Rayo Vallecano", short: "RAY", image: "images/rayo.png" },
+  { name: "Mallorca", short: "MLL", image: "images/mallorca.png" },
+  { name: "Levante", short: "LEV", image: "images/levante.png" },
+  { name: "Elche", short: "ELC", image: "images/elche.png" },
+  { name: "Oviedo", short: "OVI", image: "images/oviedo.png" },
+  { name: "Alavés", short: "ALA", image: "images/alaves.png" },
+  { name: "Osasuna", short: "OSA", image: "images/osasuna.png" },
+  { name: "Espanyol", short: "ESP", image: "images/espanyol.png" }
+];
