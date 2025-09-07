@@ -1,6 +1,6 @@
 window.LEAGUE_seriea = [
   { name: "Napoli", short: "NAP", image: "images/napoli.png" },
-  { name: "Juventus", short: "JUV", image: "images/juventus.png" },
+  { name: "Juventus", short: "JUV", image: "images/juve.png" },
   { name: "Inter Milan", short: "INT", image: "images/inter.png" },
   { name: "AC Milan", short: "MIL", image: "images/milan.png" },
   { name: "AS Roma", short: "ROM", image: "images/roma.png" },
@@ -18,5 +18,5 @@ window.LEAGUE_seriea = [
   { name: "Genoa", short: "GEN", image: "images/genoa.png" },
   { name: "Pisa", short: "PIS", image: "images/pisa.png" },
   { name: "Cagliari", short: "CAG", image: "images/cagliari.png" },
-  { name: "Hellas Verona", short: "VER", image: "images/verona.png" }
+  { name: "Hellas Verona", short: "VER", image: "images/hv.png" }
 ];
