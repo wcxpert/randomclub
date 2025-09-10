@@ -104,6 +104,8 @@ If an image is missing, the app will generate a **placeholder SVG** with the clu
   2. Go to **Settings → Pages → Deploy from Branch → `main` branch**.
   3. Your app will be live at `https://your-username.github.io/football-randomiser/`.
 
+[https://wcxpert.github.io/randomclub]
+
 ---
 
 ## 📜 License
