@@ -144,328 +144,193 @@
     If the files are unavailable it will fall back to built-in sample data so the app still works.
   -->
 <script>
-const FALLBACK_LEAGUES = {
-  premier: {
-    id: "premier",
-    label: "Premier League",
-    file: "leagues/premier-league.js",
-    clubs: [
-      { name: "Liverpool", short: "LIV" },
-      { name: "Manchester City", short: "MCI" },
-      { name: "Arsenal", short: "ARS" },
-      { name: "Chelsea", short: "CHE" },
-      { name: "Tottenham Hotspur", short: "TOT" },
-      { name: "Everton", short: "EVE" },
-      { name: "Manchester United", short: "MUN" },
-      { name: "Newcastle United", short: "NEW" },
-      { name: "Aston Villa", short: "AVL" },
-      { name: "Brighton & Hove Albion", short: "BHA" },
-      { name: "West Ham United", short: "WHU" },
-      { name: "Bournemouth", short: "BOU" },
-      { name: "Crystal Palace", short: "CRY" },
-      { name: "Brentford", short: "BRE" },
-      { name: "Fulham", short: "FUL" },
-      { name: "Leeds United", short: "LEE" },
-      { name: "Burnley", short: "BUR" },
-      { name: "Sunderland", short: "SUN" },
-      { name: "Wolves", short: "WOL" },
-      { name: "Nottingham Forest", short: "NFO" }
-    ]
-  },
-  laliga: {
-    id: "laliga",
-    label: "La Liga",
-    file: "leagues/la-liga.js",
-    clubs: [
-      { name: "Real Madrid", short: "RMA" },
-      { name: "Barcelona", short: "BAR" },
-      { name: "Atlético de Madrid", short: "ATM" },
-      { name: "Athletic Bilbao", short: "ATH" },
-      { name: "Real Sociedad", short: "RSO" },
-      { name: "Villarreal", short: "VIL" },
-      { name: "Sevilla", short: "SEV" },
-      { name: "Real Betis", short: "BET" },
-      { name: "Valencia", short: "VAL" },
-      { name: "Girona", short: "GIR" },
-      { name: "Celta de Vigo", short: "CEL" },
-      { name: "Getafe", short: "GET" },
-      { name: "Rayo Vallecano", short: "RAY" },
-      { name: "Mallorca", short: "MLL" },
-      { name: "Levante", short: "LEV" },
-      { name: "Elche", short: "ELC" },
-      { name: "Oviedo", short: "OVI" },
-      { name: "Alavés", short: "ALA" },
-      { name: "Osasuna", short: "OSA" },
-      { name: "Espanyol", short: "ESP" }
-    ]
-  },
-  bundesliga: {
-    id: "bundesliga",
-    label: "Bundesliga",
-    file: "leagues/bundesliga.js",
-    clubs: [
-      { name: "Bayern Munich", short: "FCB" },
-      { name: "Borussia Dortmund", short: "BVB" },
-      { name: "Bayer Leverkusen", short: "B04" },
-      { name: "RB Leipzig", short: "RBL" },
-      { name: "Eintracht Frankfurt", short: "SGE" },
-      { name: "VfB Stuttgart", short: "VFB" },
-      { name: "VfL Wolfsburg", short: "WOB" },
-      { name: "Werder Bremen", short: "SVW" },
-      { name: "TSG Hoffenheim", short: "TSG" },
-      { name: "Borussia Mönchengladbach", short: "BMG" },
-      { name: "Union Berlin", short: "FCU" },
-      { name: "FC Augsburg", short: "FCA" },
-      { name: "1. FC Köln", short: "KOE" },
-      { name: "SC Freiburg", short: "SCF" },
-      { name: "Mainz 05", short: "M05" },
-      { name: "Hamburger SV", short: "HSV" },
-      { name: "1. FC Heidenheim", short: "HDH" },
-      { name: "FC St. Pauli", short: "STP" }
-    ]
-  },
-  seriea: {
-    id: "seriea",
-    label: "Serie A",
-    file: "leagues/serie-a.js",
-    clubs: [
-      { name: "Napoli", short: "NAP" },
-      { name: "Juventus", short: "JUV" },
-      { name: "Inter Milan", short: "INT" },
-      { name: "AC Milan", short: "MIL" },
-      { name: "AS Roma", short: "ROM" },
-      { name: "Atalanta", short: "ATA" },
-      { name: "Lazio", short: "LAZ" },
-      { name: "Fiorentina", short: "FIO" },
-      { name: "Udinese", short: "UDI" },
-      { name: "Bologna", short: "BOL" },
-      { name: "Torino", short: "TOR" },
-      { name: "Sassuolo", short: "SAS" },
-      { name: "Como", short: "COM" },
-      { name: "Cremonese", short: "CRE" },
-      { name: "Lecce", short: "LEC" },
-      { name: "Parma", short: "PAR" },
-      { name: "Genoa", short: "GEN" },
-      { name: "Pisa", short: "PIS" },
-      { name: "Cagliari", short: "CAG" },
-      { name: "Hellas Verona", short: "VER" }
-    ]
-  },
-  ligue1: {
-    id: "ligue1",
-    label: "Ligue 1",
-    file: "leagues/ligue-1.js",
-    clubs: [
-      { name: "Paris Saint-Germain", short: "PSG" },
-      { name: "Lyon", short: "OL" },
-      { name: "Lille", short: "LIL" },
-      { name: "Monaco", short: "ASM" },
-      { name: "Lens", short: "LEN" },
-      { name: "Marseille", short: "OM" },
-      { name: "Nice", short: "NCE" },
-      { name: "Nantes", short: "NAN" },
-      { name: "Rennes", short: "REN" },
-      { name: "Strasbourg", short: "STR" },
-      { name: "Angers", short: "ANG" },
-      { name: "Auxerre", short: "AUX" },
-      { name: "Brest", short: "BRE" },
-      { name: "Le Havre", short: "HAC" },
-      { name: "Lorient", short: "LOR" },
-      { name: "Metz", short: "MET" },
-      { name: "Paris FC", short: "PFC" },
-      { name: "Toulouse", short: "TOU" }
-    ]
-  }
+// Flag PNGs (put your own in /flags folder)
+const FLAGS = {
+  England: "flags/england.png",
+  Spain: "flags/spain.png",
+  Germany: "flags/germany.png",
+  Italy: "flags/italy.png",
+  France: "flags/france.png"
 };
 
+const FALLBACK_LEAGUES = {
+  premier: { id:"premier", country:"England", label:"Premier League", file:"leagues/premier-league.js", clubs:[
+    { name: "Liverpool", short: "LIV" },
+    { name: "Manchester City", short: "MCI" },
+    { name: "Arsenal", short: "ARS" },
+    { name: "Chelsea", short: "CHE" },
+    { name: "Tottenham Hotspur", short: "TOT" },
+    { name: "Everton", short: "EVE" },
+    { name: "Manchester United", short: "MUN" },
+    { name: "Newcastle United", short: "NEW" },
+    { name: "Aston Villa", short: "AVL" },
+    { name: "Brighton & Hove Albion", short: "BHA" },
+    { name: "West Ham United", short: "WHU" },
+    { name: "Bournemouth", short: "BOU" },
+    { name: "Crystal Palace", short: "CRY" },
+    { name: "Brentford", short: "BRE" },
+    { name: "Fulham", short: "FUL" },
+    { name: "Leeds United", short: "LEE" },
+    { name: "Burnley", short: "BUR" },
+    { name: "Sunderland", short: "SUN" },
+    { name: "Wolves", short: "WOL" },
+    { name: "Nottingham Forest", short: "NFO" }
+  ] },
+  championship: { id:"championship", country:"England", label:"EFL Championship", file:"leagues/championship.js", clubs:[] },
+  laliga: { id:"laliga", country:"Spain", label:"La Liga", file:"leagues/la-liga.js", clubs:[
+    { name: "Real Madrid", short: "RMA" },
+    { name: "Barcelona", short: "BAR" },
+    { name: "Atlético de Madrid", short: "ATM" },
+    { name: "Athletic Bilbao", short: "ATH" },
+    { name: "Real Sociedad", short: "RSO" },
+    { name: "Villarreal", short: "VIL" },
+    { name: "Sevilla", short: "SEV" },
+    { name: "Real Betis", short: "BET" },
+    { name: "Valencia", short: "VAL" },
+    { name: "Girona", short: "GIR" },
+    { name: "Celta de Vigo", short: "CEL" },
+    { name: "Getafe", short: "GET" },
+    { name: "Rayo Vallecano", short: "RAY" },
+    { name: "Mallorca", short: "MLL" },
+    { name: "Levante", short: "LEV" },
+    { name: "Elche", short: "ELC" },
+    { name: "Oviedo", short: "OVI" },
+    { name: "Alavés", short: "ALA" },
+    { name: "Osasuna", short: "OSA" },
+    { name: "Espanyol", short: "ESP" }
+  ] },
+  bundesliga: { id:"bundesliga", country:"Germany", label:"Bundesliga", file:"leagues/bundesliga.js", clubs:[
+    { name: "Bayern Munich", short: "FCB" },
+    { name: "Borussia Dortmund", short: "BVB" },
+    { name: "Bayer Leverkusen", short: "B04" },
+    { name: "RB Leipzig", short: "RBL" },
+    { name: "Eintracht Frankfurt", short: "SGE" },
+    { name: "VfB Stuttgart", short: "VFB" },
+    { name: "VfL Wolfsburg", short: "WOB" },
+    { name: "Werder Bremen", short: "SVW" },
+    { name: "TSG Hoffenheim", short: "TSG" },
+    { name: "Borussia Mönchengladbach", short: "BMG" },
+    { name: "Union Berlin", short: "FCU" },
+    { name: "FC Augsburg", short: "FCA" },
+    { name: "1. FC Köln", short: "KOE" },
+    { name: "SC Freiburg", short: "SCF" },
+    { name: "Mainz 05", short: "M05" },
+    { name: "Hamburger SV", short: "HSV" },
+    { name: "1. FC Heidenheim", short: "HDH" },
+    { name: "FC St. Pauli", short: "STP" }
+  ] },
+  seriea: { id:"seriea", country:"Italy", label:"Serie A", file:"leagues/serie-a.js", clubs:[
+    { name: "Napoli", short: "NAP" },
+    { name: "Juventus", short: "JUV" },
+    { name: "Inter Milan", short: "INT" },
+    { name: "AC Milan", short: "MIL" },
+    { name: "AS Roma", short: "ROM" },
+    { name: "Atalanta", short: "ATA" },
+    { name: "Lazio", short: "LAZ" },
+    { name: "Fiorentina", short: "FIO" },
+    { name: "Udinese", short: "UDI" },
+    { name: "Bologna", short: "BOL" },
+    { name: "Torino", short: "TOR" },
+    { name: "Sassuolo", short: "SAS" },
+    { name: "Como", short: "COM" },
+    { name: "Cremonese", short: "CRE" },
+    { name: "Lecce", short: "LEC" },
+    { name: "Parma", short: "PAR" },
+    { name: "Genoa", short: "GEN" },
+    { name: "Pisa", short: "PIS" },
+    { name: "Cagliari", short: "CAG" },
+    { name: "Hellas Verona", short: "VER" }
+  ] },
+  ligue1: { id:"ligue1", country:"France", label:"Ligue 1", file:"leagues/ligue-1.js", clubs:[
+    { name: "Paris Saint-Germain", short: "PSG" },
+    { name: "Lyon", short: "OL" },
+    { name: "Lille", short: "LIL" },
+    { name: "Monaco", short: "ASM" },
+    { name: "Lens", short: "LEN" },
+    { name: "Marseille", short: "OM" },
+    { name: "Nice", short: "NCE" },
+    { name: "Nantes", short: "NAN" },
+    { name: "Rennes", short: "REN" },
+    { name: "Strasbourg", short: "STR" },
+    { name: "Angers", short: "ANG" },
+    { name: "Auxerre", short: "AUX" },
+    { name: "Brest", short: "BRE" },
+    { name: "Le Havre", short: "HAC" },
+    { name: "Lorient", short: "LOR" },
+    { name: "Metz", short: "MET" },
+    { name: "Paris FC", short: "PFC" },
+    { name: "Toulouse", short: "TOU" }
+  ] }
+};
 
-  // App state
-  const state = {
-    leagues: {}, // id -> {id,label,file,clubs,enabled}
-    pool: [],
-    duration: 5000,
-    cycling: false,
-  };
+// App state
+const state = { leagues:{}, pool:[], duration:5000, cycling:false };
 
-  // UI refs
-  const clubPic = document.getElementById('clubPic');
-  const clubName = document.getElementById('clubName');
-  const clubLeague = document.getElementById('clubLeague');
-  const selectedPreview = document.getElementById('selectedPreview');
-  const randomBtn = document.getElementById('randomBtn');
-  const openSettings = document.getElementById('openSettings');
-  const settingsPanel = document.getElementById('settingsPanel');
-  const leaguesContainer = document.getElementById('leaguesContainer');
-  const durationRange = document.getElementById('durationRange');
-  const durationLabel = document.getElementById('durationLabel');
-  const applyBtn = document.getElementById('applyBtn');
-  const closeSettings = document.getElementById('closeSettings');
+function initLeagues(){
+  Object.values(FALLBACK_LEAGUES).forEach(l => {
+    state.leagues[l.id] = { ...l, enabled: l.id !== "championship" };
+  });
+}
 
-  // initialize state from FALLBACK_LEAGUES
-  function initLeagues(){
-    Object.values(FALLBACK_LEAGUES).forEach(l => {
-      state.leagues[l.id] = { ...l, enabled: true };
-    });
-  }
-
-  // attempt to dynamically load external league JS files
-  function tryLoadExternalLeagues(){
-    Object.values(state.leagues).forEach(league => {
-      const script = document.createElement('script');
-      script.src = league.file;
-      script.async = true;
-      script.onload = () => {
-        // convention: external file should set window.LEAGUE_<id> as array
-        const varName = 'LEAGUE_' + league.id;
-        if(window[varName] && Array.isArray(window[varName])){
-          league.clubs = window[varName].map(c => ({...c}));
-          console.log('Loaded external league', league.id);
-          refreshUI();
-        } else {
-          console.log('External file loaded but did not expose', varName);
-        }
-      };
-      script.onerror = () => {
-        console.log('Could not load', league.file, '- using fallback');
-      };
-      document.head.appendChild(script);
-    });
-  }
-
-  function refreshUI(){
-    // leagues list
-    leaguesContainer.innerHTML = '';
-    Object.values(state.leagues).forEach(league=>{
+function refreshUI(){
+  leaguesContainer.innerHTML = '';
+  const grouped = {};
+  Object.values(state.leagues).forEach(league=>{
+    if(league.clubs.length === 0) return;
+    if(!grouped[league.country]) grouped[league.country] = [];
+    grouped[league.country].push(league);
+  });
+  Object.entries(grouped).forEach(([country, leagues])=>{
+    const flagUrl = FLAGS[country] || '';
+    const countryDiv = document.createElement('div');
+    countryDiv.className = 'country-block';
+    countryDiv.innerHTML = `
+      <div class="country-header" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:6px 0;">
+        <div style="display:flex;align-items:center;gap:8px;font-weight:600;">
+          <img src="${flagUrl}" alt="${country} flag" class="flag-icon" />
+          <span>${country}</span>
+        </div>
+        <span class="chevron" style="transition:transform 0.3s ease;">▼</span>
+      </div>
+      <div class="country-leagues" style="max-height:0;overflow:hidden;transition:max-height 0.35s ease;margin-left:18px;"></div>
+    `;
+    const leaguesList = countryDiv.querySelector('.country-leagues');
+    leagues.forEach(league=>{
       const row = document.createElement('div');
       row.className = 'league-row';
       row.innerHTML = `
-        <label style="display:flex;align-items:center;gap:10px;width:100%">
+        <label style="display:flex;align-items:center;gap:10px;width:100%;padding:4px 0;">
           <input type="checkbox" data-id="${league.id}" ${league.enabled? 'checked':''} />
           <div style="flex:1">
-            <div style="font-weight:600">${league.label}</div>
+            <div style="font-weight:500">${league.label}</div>
             <div style="font-size:12px;color:var(--muted)">${league.clubs.length} clubs</div>
           </div>
         </label>
       `;
-      leaguesContainer.appendChild(row);
+      leaguesList.appendChild(row);
     });
-    // wire checkbox change
-    leaguesContainer.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
-      cb.addEventListener('change', e=>{
-        const id = e.target.dataset.id;
-        state.leagues[id].enabled = e.target.checked;
-        buildPool();
-      });
-    });
-    buildPool();
-  }
-
-  function buildPool(){
-    state.pool = [];
-    Object.values(state.leagues).forEach(league=>{
-      if(league.enabled){
-        league.clubs.forEach(c=> state.pool.push({ ...c, league: league.label }));
+    leaguesContainer.appendChild(countryDiv);
+    const header = countryDiv.querySelector('.country-header');
+    const chevron = countryDiv.querySelector('.chevron');
+    header.addEventListener('click', ()=>{
+      if(leaguesList.style.maxHeight === '0px' || leaguesList.style.maxHeight === '0'){
+        leaguesList.style.maxHeight = leaguesList.scrollHeight + "px";
+        chevron.style.transform = "rotate(180deg)";
+      } else {
+        leaguesList.style.maxHeight = "0";
+        chevron.style.transform = "rotate(0deg)";
       }
     });
-    renderSelectedPreview();
-  }
-
-  function renderSelectedPreview(){
-    selectedPreview.innerHTML = '';
-    const selected = Object.values(state.leagues).filter(l=>l.enabled).map(l => l.label);
-    if(selected.length===0){
-      selectedPreview.innerHTML = '<div class="pill">No leagues selected</div>';
-    } else {
-      selected.forEach(s=>{
-        const el = document.createElement('div'); el.className='pill'; el.textContent = s; selectedPreview.appendChild(el);
-      });
-    }
-  }
-
-  // utility to create SVG placeholder image with initials
-  function svgDataForName(name){
-    const initials = name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
-    const bgColors = ['#ef4444','#f97316','#f59e0b','#10b981','#06b6d4','#3b82f6','#8b5cf6'];
-    const c = bgColors[name.length % bgColors.length];
-    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'>
-      <defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='${c}' stop-opacity='1'/><stop offset='1' stop-color='#0ea5a4' stop-opacity='0.9'/></linearGradient></defs>
-      <rect width='100%' height='100%' fill='url(#g)' rx='40' />
-      <text x='50%' y='55%' font-size='180' text-anchor='middle' font-family='Segoe UI, Roboto, Arial' fill='rgba(255,255,255,0.95)'>${initials}</text>
-    </svg>`;
-    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
-  }
-
-  function showClub(club){
-    clubName.textContent = club.name || 'Unknown Club';
-    clubLeague.textContent = club.league ? club.league : '';
-    // use provided image if available, otherwise generated svg
-    const imgUrl = club.image || club.logo || svgDataForName(club.name || 'Club');
-    clubPic.innerHTML = '';
-    const img = document.createElement('img');
-    img.alt = club.name;
-    img.src = imgUrl;
-    clubPic.appendChild(img);
-  }
-
-  // random selection with animated cycling for `state.duration` ms
-  async function runRandomiser(){
-    if(state.cycling) return;
-    if(state.pool.length===0){
-      alert('No clubs in the pool. Enable at least one league in settings.');
-      return;
-    }
-    state.cycling = true;
-    randomBtn.disabled = true;
-    randomBtn.classList.add('pulse');
-
-    const endTime = Date.now() + state.duration;
-    let current = null;
-    // cycle quickly (every 60-110ms random interval for lively effect)
-    while(Date.now() < endTime){
-      const idx = Math.floor(Math.random()*state.pool.length);
-      current = state.pool[idx];
-      showClub(current);
-      // tiny await to avoid blocking UI - variable interval
-      await new Promise(r => setTimeout(r, 60 + Math.random()*60));
-    }
-
-    // final selection (weighted equal)
-    const final = state.pool[Math.floor(Math.random()*state.pool.length)];
-    showClub(final);
-
-    state.cycling = false;
-    randomBtn.disabled = false;
-    randomBtn.classList.remove('pulse');
-  }
-
-  // wire UI
-  function wire(){
-    randomBtn.addEventListener('click', runRandomiser);
-    openSettings.addEventListener('click', ()=>{settingsPanel.style.display='block';settingsPanel.setAttribute('aria-hidden','false');});
-    closeSettings.addEventListener('click', ()=>{settingsPanel.style.display='none';settingsPanel.setAttribute('aria-hidden','true');});
-    applyBtn.addEventListener('click', ()=>{settingsPanel.style.display='none';settingsPanel.setAttribute('aria-hidden','true');});
-    durationRange.addEventListener('input', (e)=>{const v = +e.target.value; state.duration = v*1000; durationLabel.textContent = v + 's';});
-
-    // initial values
-    durationLabel.textContent = (state.duration/1000)+'s';
-
-    // show a friendly default image
-    clubPic.innerHTML = '';
-    const img = document.createElement('img'); img.src = svgDataForName('FR'); img.alt='FR'; clubPic.appendChild(img);
-  }
-
-  // on load
-  (function(){
-    initLeagues();
-    wire();
-    refreshUI();
-    tryLoadExternalLeagues();
-  })();
-
-  // expose helpers for debugging in console
-  window.FootballRandomiser = {
-    state, showClub, buildPool
-  };
-  </script>
+  });
+  leaguesContainer.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+    cb.addEventListener('change', e=>{
+      const id = e.target.dataset.id;
+      state.leagues[id].enabled = e.target.checked;
+      buildPool();
+    });
+  });
+  buildPool();
+}
+</script>
 </body>
 </html>
