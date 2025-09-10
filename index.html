@@ -132,6 +132,7 @@
     If the files are unavailable it will fall back to built-in sample data so the app still works.
   -->
 <script>
+
 const FALLBACK_LEAGUES = {
   premier: {
     id: "premier",
@@ -271,6 +272,196 @@ const FALLBACK_LEAGUES = {
     clubs: [] // no fallback clubs
   }
 };
-</script>
+
+
+
+  // App state
+  const state = {
+    leagues: {}, // id -> {id,label,file,clubs,enabled}
+    pool: [],
+    duration: 5000,
+    cycling: false,
+  };
+
+  // UI refs
+  const clubPic = document.getElementById('clubPic');
+  const clubName = document.getElementById('clubName');
+  const clubLeague = document.getElementById('clubLeague');
+  const selectedPreview = document.getElementById('selectedPreview');
+  const randomBtn = document.getElementById('randomBtn');
+  const openSettings = document.getElementById('openSettings');
+  const settingsPanel = document.getElementById('settingsPanel');
+  const leaguesContainer = document.getElementById('leaguesContainer');
+  const durationRange = document.getElementById('durationRange');
+  const durationLabel = document.getElementById('durationLabel');
+  const applyBtn = document.getElementById('applyBtn');
+  const closeSettings = document.getElementById('closeSettings');
+
+  // initialize state from FALLBACK_LEAGUES
+  function initLeagues(){
+    Object.values(FALLBACK_LEAGUES).forEach(l => {
+      state.leagues[l.id] = { ...l, enabled: true };
+    });
+  }
+
+  // attempt to dynamically load external league JS files
+  function tryLoadExternalLeagues(){
+    Object.values(state.leagues).forEach(league => {
+      const script = document.createElement('script');
+      script.src = league.file;
+      script.async = true;
+      script.onload = () => {
+        // convention: external file should set window.LEAGUE_<id> as array
+        const varName = 'LEAGUE_' + league.id;
+        if(window[varName] && Array.isArray(window[varName])){
+          league.clubs = window[varName].map(c => ({...c}));
+          console.log('Loaded external league', league.id);
+          refreshUI();
+        } else {
+          console.log('External file loaded but did not expose', varName);
+        }
+      };
+      script.onerror = () => {
+        console.log('Could not load', league.file, '- using fallback');
+      };
+      document.head.appendChild(script);
+    });
+  }
+
+  function refreshUI(){
+    // leagues list
+    leaguesContainer.innerHTML = '';
+    Object.values(state.leagues).forEach(league=>{
+      const row = document.createElement('div');
+      row.className = 'league-row';
+      row.innerHTML = `
+        <label style="display:flex;align-items:center;gap:10px;width:100%">
+          <input type="checkbox" data-id="${league.id}" ${league.enabled? 'checked':''} />
+          <div style="flex:1">
+            <div style="font-weight:600">${league.label}</div>
+            <div style="font-size:12px;color:var(--muted)">${league.clubs.length} clubs</div>
+          </div>
+        </label>
+      `;
+      leaguesContainer.appendChild(row);
+    });
+    // wire checkbox change
+    leaguesContainer.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+      cb.addEventListener('change', e=>{
+        const id = e.target.dataset.id;
+        state.leagues[id].enabled = e.target.checked;
+        buildPool();
+      });
+    });
+    buildPool();
+  }
+
+  function buildPool(){
+    state.pool = [];
+    Object.values(state.leagues).forEach(league=>{
+      if(league.enabled){
+        league.clubs.forEach(c=> state.pool.push({ ...c, league: league.label }));
+      }
+    });
+    renderSelectedPreview();
+  }
+
+  function renderSelectedPreview(){
+    selectedPreview.innerHTML = '';
+    const selected = Object.values(state.leagues).filter(l=>l.enabled).map(l => l.label);
+    if(selected.length===0){
+      selectedPreview.innerHTML = '<div class="pill">No leagues selected</div>';
+    } else {
+      selected.forEach(s=>{
+        const el = document.createElement('div'); el.className='pill'; el.textContent = s; selectedPreview.appendChild(el);
+      });
+    }
+  }
+
+  // utility to create SVG placeholder image with initials
+  function svgDataForName(name){
+    const initials = name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    const bgColors = ['#ef4444','#f97316','#f59e0b','#10b981','#06b6d4','#3b82f6','#8b5cf6'];
+    const c = bgColors[name.length % bgColors.length];
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'>
+      <defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='${c}' stop-opacity='1'/><stop offset='1' stop-color='#0ea5a4' stop-opacity='0.9'/></linearGradient></defs>
+      <rect width='100%' height='100%' fill='url(#g)' rx='40' />
+      <text x='50%' y='55%' font-size='180' text-anchor='middle' font-family='Segoe UI, Roboto, Arial' fill='rgba(255,255,255,0.95)'>${initials}</text>
+    </svg>`;
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+  }
+
+  function showClub(club){
+    clubName.textContent = club.name || 'Unknown Club';
+    clubLeague.textContent = club.league ? club.league : '';
+    // use provided image if available, otherwise generated svg
+    const imgUrl = club.image || club.logo || svgDataForName(club.name || 'Club');
+    clubPic.innerHTML = '';
+    const img = document.createElement('img');
+    img.alt = club.name;
+    img.src = imgUrl;
+    clubPic.appendChild(img);
+  }
+
+  // random selection with animated cycling for `state.duration` ms
+  async function runRandomiser(){
+    if(state.cycling) return;
+    if(state.pool.length===0){
+      alert('No clubs in the pool. Enable at least one league in settings.');
+      return;
+    }
+    state.cycling = true;
+    randomBtn.disabled = true;
+    randomBtn.classList.add('pulse');
+
+    const endTime = Date.now() + state.duration;
+    let current = null;
+    // cycle quickly (every 60-110ms random interval for lively effect)
+    while(Date.now() < endTime){
+      const idx = Math.floor(Math.random()*state.pool.length);
+      current = state.pool[idx];
+      showClub(current);
+      // tiny await to avoid blocking UI - variable interval
+      await new Promise(r => setTimeout(r, 60 + Math.random()*60));
+    }
+
+    // final selection (weighted equal)
+    const final = state.pool[Math.floor(Math.random()*state.pool.length)];
+    showClub(final);
+
+    state.cycling = false;
+    randomBtn.disabled = false;
+    randomBtn.classList.remove('pulse');
+  }
+
+  // wire UI
+  function wire(){
+    randomBtn.addEventListener('click', runRandomiser);
+    openSettings.addEventListener('click', ()=>{settingsPanel.style.display='block';settingsPanel.setAttribute('aria-hidden','false');});
+    closeSettings.addEventListener('click', ()=>{settingsPanel.style.display='none';settingsPanel.setAttribute('aria-hidden','true');});
+    applyBtn.addEventListener('click', ()=>{settingsPanel.style.display='none';settingsPanel.setAttribute('aria-hidden','true');});
+    durationRange.addEventListener('input', (e)=>{const v = +e.target.value; state.duration = v*1000; durationLabel.textContent = v + 's';});
+
+    // initial values
+    durationLabel.textContent = (state.duration/1000)+'s';
+
+    // show a friendly default image
+    clubPic.innerHTML = '';
+    const img = document.createElement('img'); img.src = svgDataForName('FR'); img.alt='FR'; clubPic.appendChild(img);
+  }
+
+  // on load
+  (function(){
+    initLeagues();
+    wire();
+    refreshUI();
+    tryLoadExternalLeagues();
+  })();
+
+  // expose helpers for debugging in console
+  window.FootballRandomiser = {
+    state, showClub, buildPool
+  };
+  </script>
 </body>
 </html>
