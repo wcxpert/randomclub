@@ -70,6 +70,24 @@
   background: rgba(255,255,255,0.04);
   border-radius: 6px;
 }
+
+.flag-icon {
+  width: 20px;
+  height: 14px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.country-header:hover {
+  background: rgba(255,255,255,0.04);
+  border-radius: 6px;
+}
+.country-block {
+  background: rgba(255,255,255,0.02);
+  border-radius: 8px;
+  margin: 8px 0;
+  padding: 6px 10px;
+}
 </style>
 </head>
 <body>
@@ -155,111 +173,48 @@ const FLAGS = {
 
 const FALLBACK_LEAGUES = {
   premier: { id:"premier", country:"England", label:"Premier League", file:"leagues/premier-league.js", clubs:[
-    { name: "Liverpool", short: "LIV" },
-    { name: "Manchester City", short: "MCI" },
-    { name: "Arsenal", short: "ARS" },
-    { name: "Chelsea", short: "CHE" },
-    { name: "Tottenham Hotspur", short: "TOT" },
-    { name: "Everton", short: "EVE" },
-    { name: "Manchester United", short: "MUN" },
-    { name: "Newcastle United", short: "NEW" },
-    { name: "Aston Villa", short: "AVL" },
-    { name: "Brighton & Hove Albion", short: "BHA" },
-    { name: "West Ham United", short: "WHU" },
-    { name: "Bournemouth", short: "BOU" },
-    { name: "Crystal Palace", short: "CRY" },
-    { name: "Brentford", short: "BRE" },
-    { name: "Fulham", short: "FUL" },
-    { name: "Leeds United", short: "LEE" },
-    { name: "Burnley", short: "BUR" },
-    { name: "Sunderland", short: "SUN" },
-    { name: "Wolves", short: "WOL" },
-    { name: "Nottingham Forest", short: "NFO" }
+    { name: "Liverpool", short: "LIV" }, { name: "Manchester City", short: "MCI" }, { name: "Arsenal", short: "ARS" },
+    { name: "Chelsea", short: "CHE" }, { name: "Tottenham Hotspur", short: "TOT" }, { name: "Everton", short: "EVE" },
+    { name: "Manchester United", short: "MUN" }, { name: "Newcastle United", short: "NEW" }, { name: "Aston Villa", short: "AVL" },
+    { name: "Brighton & Hove Albion", short: "BHA" }, { name: "West Ham United", short: "WHU" }, { name: "Bournemouth", short: "BOU" },
+    { name: "Crystal Palace", short: "CRY" }, { name: "Brentford", short: "BRE" }, { name: "Fulham", short: "FUL" },
+    { name: "Leeds United", short: "LEE" }, { name: "Burnley", short: "BUR" }, { name: "Sunderland", short: "SUN" },
+    { name: "Wolves", short: "WOL" }, { name: "Nottingham Forest", short: "NFO" }
   ] },
   championship: { id:"championship", country:"England", label:"EFL Championship", file:"leagues/championship.js", clubs:[] },
   laliga: { id:"laliga", country:"Spain", label:"La Liga", file:"leagues/la-liga.js", clubs:[
-    { name: "Real Madrid", short: "RMA" },
-    { name: "Barcelona", short: "BAR" },
-    { name: "Atlético de Madrid", short: "ATM" },
-    { name: "Athletic Bilbao", short: "ATH" },
-    { name: "Real Sociedad", short: "RSO" },
-    { name: "Villarreal", short: "VIL" },
-    { name: "Sevilla", short: "SEV" },
-    { name: "Real Betis", short: "BET" },
-    { name: "Valencia", short: "VAL" },
-    { name: "Girona", short: "GIR" },
-    { name: "Celta de Vigo", short: "CEL" },
-    { name: "Getafe", short: "GET" },
-    { name: "Rayo Vallecano", short: "RAY" },
-    { name: "Mallorca", short: "MLL" },
-    { name: "Levante", short: "LEV" },
-    { name: "Elche", short: "ELC" },
-    { name: "Oviedo", short: "OVI" },
-    { name: "Alavés", short: "ALA" },
-    { name: "Osasuna", short: "OSA" },
-    { name: "Espanyol", short: "ESP" }
+    { name: "Real Madrid", short: "RMA" }, { name: "Barcelona", short: "BAR" }, { name: "Atlético de Madrid", short: "ATM" },
+    { name: "Athletic Bilbao", short: "ATH" }, { name: "Real Sociedad", short: "RSO" }, { name: "Villarreal", short: "VIL" },
+    { name: "Sevilla", short: "SEV" }, { name: "Real Betis", short: "BET" }, { name: "Valencia", short: "VAL" },
+    { name: "Girona", short: "GIR" }, { name: "Celta de Vigo", short: "CEL" }, { name: "Getafe", short: "GET" },
+    { name: "Rayo Vallecano", short: "RAY" }, { name: "Mallorca", short: "MLL" }, { name: "Levante", short: "LEV" },
+    { name: "Elche", short: "ELC" }, { name: "Oviedo", short: "OVI" }, { name: "Alavés", short: "ALA" },
+    { name: "Osasuna", short: "OSA" }, { name: "Espanyol", short: "ESP" }
   ] },
   bundesliga: { id:"bundesliga", country:"Germany", label:"Bundesliga", file:"leagues/bundesliga.js", clubs:[
-    { name: "Bayern Munich", short: "FCB" },
-    { name: "Borussia Dortmund", short: "BVB" },
-    { name: "Bayer Leverkusen", short: "B04" },
-    { name: "RB Leipzig", short: "RBL" },
-    { name: "Eintracht Frankfurt", short: "SGE" },
-    { name: "VfB Stuttgart", short: "VFB" },
-    { name: "VfL Wolfsburg", short: "WOB" },
-    { name: "Werder Bremen", short: "SVW" },
-    { name: "TSG Hoffenheim", short: "TSG" },
-    { name: "Borussia Mönchengladbach", short: "BMG" },
-    { name: "Union Berlin", short: "FCU" },
-    { name: "FC Augsburg", short: "FCA" },
-    { name: "1. FC Köln", short: "KOE" },
-    { name: "SC Freiburg", short: "SCF" },
-    { name: "Mainz 05", short: "M05" },
-    { name: "Hamburger SV", short: "HSV" },
-    { name: "1. FC Heidenheim", short: "HDH" },
-    { name: "FC St. Pauli", short: "STP" }
+    { name: "Bayern Munich", short: "FCB" }, { name: "Borussia Dortmund", short: "BVB" }, { name: "Bayer Leverkusen", short: "B04" },
+    { name: "RB Leipzig", short: "RBL" }, { name: "Eintracht Frankfurt", short: "SGE" }, { name: "VfB Stuttgart", short: "VFB" },
+    { name: "VfL Wolfsburg", short: "WOB" }, { name: "Werder Bremen", short: "SVW" }, { name: "TSG Hoffenheim", short: "TSG" },
+    { name: "Borussia Mönchengladbach", short: "BMG" }, { name: "Union Berlin", short: "FCU" }, { name: "FC Augsburg", short: "FCA" },
+    { name: "1. FC Köln", short: "KOE" }, { name: "SC Freiburg", short: "SCF" }, { name: "Mainz 05", short: "M05" },
+    { name: "Hamburger SV", short: "HSV" }, { name: "1. FC Heidenheim", short: "HDH" }, { name: "FC St. Pauli", short: "STP" }
   ] },
   seriea: { id:"seriea", country:"Italy", label:"Serie A", file:"leagues/serie-a.js", clubs:[
-    { name: "Napoli", short: "NAP" },
-    { name: "Juventus", short: "JUV" },
-    { name: "Inter Milan", short: "INT" },
-    { name: "AC Milan", short: "MIL" },
-    { name: "AS Roma", short: "ROM" },
-    { name: "Atalanta", short: "ATA" },
-    { name: "Lazio", short: "LAZ" },
-    { name: "Fiorentina", short: "FIO" },
-    { name: "Udinese", short: "UDI" },
-    { name: "Bologna", short: "BOL" },
-    { name: "Torino", short: "TOR" },
-    { name: "Sassuolo", short: "SAS" },
-    { name: "Como", short: "COM" },
-    { name: "Cremonese", short: "CRE" },
-    { name: "Lecce", short: "LEC" },
-    { name: "Parma", short: "PAR" },
-    { name: "Genoa", short: "GEN" },
-    { name: "Pisa", short: "PIS" },
-    { name: "Cagliari", short: "CAG" },
-    { name: "Hellas Verona", short: "VER" }
+    { name: "Napoli", short: "NAP" }, { name: "Juventus", short: "JUV" }, { name: "Inter Milan", short: "INT" },
+    { name: "AC Milan", short: "MIL" }, { name: "AS Roma", short: "ROM" }, { name: "Atalanta", short: "ATA" },
+    { name: "Lazio", short: "LAZ" }, { name: "Fiorentina", short: "FIO" }, { name: "Udinese", short: "UDI" },
+    { name: "Bologna", short: "BOL" }, { name: "Torino", short: "TOR" }, { name: "Sassuolo", short: "SAS" },
+    { name: "Como", short: "COM" }, { name: "Cremonese", short: "CRE" }, { name: "Lecce", short: "LEC" },
+    { name: "Parma", short: "PAR" }, { name: "Genoa", short: "GEN" }, { name: "Pisa", short: "PIS" },
+    { name: "Cagliari", short: "CAG" }, { name: "Hellas Verona", short: "VER" }
   ] },
   ligue1: { id:"ligue1", country:"France", label:"Ligue 1", file:"leagues/ligue-1.js", clubs:[
-    { name: "Paris Saint-Germain", short: "PSG" },
-    { name: "Lyon", short: "OL" },
-    { name: "Lille", short: "LIL" },
-    { name: "Monaco", short: "ASM" },
-    { name: "Lens", short: "LEN" },
-    { name: "Marseille", short: "OM" },
-    { name: "Nice", short: "NCE" },
-    { name: "Nantes", short: "NAN" },
-    { name: "Rennes", short: "REN" },
-    { name: "Strasbourg", short: "STR" },
-    { name: "Angers", short: "ANG" },
-    { name: "Auxerre", short: "AUX" },
-    { name: "Brest", short: "BRE" },
-    { name: "Le Havre", short: "HAC" },
-    { name: "Lorient", short: "LOR" },
-    { name: "Metz", short: "MET" },
-    { name: "Paris FC", short: "PFC" },
-    { name: "Toulouse", short: "TOU" }
+    { name: "Paris Saint-Germain", short: "PSG" }, { name: "Lyon", short: "OL" }, { name: "Lille", short: "LIL" },
+    { name: "Monaco", short: "ASM" }, { name: "Lens", short: "LEN" }, { name: "Marseille", short: "OM" },
+    { name: "Nice", short: "NCE" }, { name: "Nantes", short: "NAN" }, { name: "Rennes", short: "REN" },
+    { name: "Strasbourg", short: "STR" }, { name: "Angers", short: "ANG" }, { name: "Auxerre", short: "AUX" },
+    { name: "Brest", short: "BRE" }, { name: "Le Havre", short: "HAC" }, { name: "Lorient", short: "LOR" },
+    { name: "Metz", short: "MET" }, { name: "Paris FC", short: "PFC" }, { name: "Toulouse", short: "TOU" }
   ] }
 };
 
@@ -276,7 +231,6 @@ function refreshUI(){
   leaguesContainer.innerHTML = '';
   const grouped = {};
   Object.values(state.leagues).forEach(league=>{
-    if(league.clubs.length === 0) return;
     if(!grouped[league.country]) grouped[league.country] = [];
     grouped[league.country].push(league);
   });
@@ -292,7 +246,7 @@ function refreshUI(){
         </div>
         <span class="chevron" style="transition:transform 0.3s ease;">▼</span>
       </div>
-      <div class="country-leagues" style="max-height:0;overflow:hidden;transition:max-height 0.35s ease;margin-left:18px;"></div>
+      <div class="country-leagues" style="display:none;margin-left:18px;"></div>
     `;
     const leaguesList = countryDiv.querySelector('.country-leagues');
     leagues.forEach(league=>{
@@ -313,11 +267,11 @@ function refreshUI(){
     const header = countryDiv.querySelector('.country-header');
     const chevron = countryDiv.querySelector('.chevron');
     header.addEventListener('click', ()=>{
-      if(leaguesList.style.maxHeight === '0px' || leaguesList.style.maxHeight === '0'){
-        leaguesList.style.maxHeight = leaguesList.scrollHeight + "px";
+      if(leaguesList.style.display === 'none' || leaguesList.style.display === ''){
+        leaguesList.style.display = 'block';
         chevron.style.transform = "rotate(180deg)";
       } else {
-        leaguesList.style.maxHeight = "0";
+        leaguesList.style.display = 'none';
         chevron.style.transform = "rotate(0deg)";
       }
     });
@@ -331,6 +285,9 @@ function refreshUI(){
   });
   buildPool();
 }
+
+initLeagues();
+refreshUI();
 </script>
 </body>
 </html>
