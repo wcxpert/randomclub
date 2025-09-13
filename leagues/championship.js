@@ -1,7 +1,7 @@
 window.LEAGUE_championship = [
   { name: "Birmingham City", short: "BIR", image: "images/birmingham.png" },
   { name: "Blackburn Rovers", short: "BLB", image: "images/blackburn.png" },
-  { name: "Bristol City", short: "BRC", image: "images/bristolcity.png" },
+  { name: "Bristol City", short: "BRC", image: "images/bristol.png" },
   { name: "Charlton Athletic", short: "CHA", image: "images/charlton.png" },
   { name: "Coventry City", short: "COV", image: "images/coventry.png" },
   { name: "Derby County", short: "DER", image: "images/derby.png" },
@@ -15,12 +15,12 @@ window.LEAGUE_championship = [
   { name: "Portsmouth", short: "POR", image: "images/portsmouth.png" },
   { name: "Preston North End", short: "PRE", image: "images/preston.png" },
   { name: "Queens Park Rangers", short: "QPR", image: "images/qpr.png" },
-  { name: "Sheffield United", short: "SHU", image: "images/sheffieldutd.png" },
-  { name: "Sheffield Wednesday", short: "SHW", image: "images/sheffieldwed.png" },
+  { name: "Sheffield United", short: "SHU", image: "images/sheffutd.png" },
+  { name: "Sheffield Wednesday", short: "SHW", image: "images/sheffwed.png" },
   { name: "Southampton", short: "SOU", image: "images/southampton.png" },
-  { name: "Stoke City", short: "STK", image: "images/stokecity.png" },
+  { name: "Stoke City", short: "STK", image: "images/stoke.png" },
   { name: "Swansea City", short: "SWA", image: "images/swansea.png" },
   { name: "Watford", short: "WAT", image: "images/watford.png" },
-  { name: "West Bromwich Albion", short: "WBA", image: "images/wba.png" },
+  { name: "West Bromwich Albion", short: "WBA", image: "images/wbalbion.png" },
   { name: "Wrexham", short: "WRX", image: "images/wrexham.png" }
 ];
