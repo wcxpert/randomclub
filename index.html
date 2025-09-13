@@ -267,7 +267,7 @@ const closeSettings = document.getElementById('closeSettings');
 
 function initLeagues(){
   Object.values(FALLBACK_LEAGUES).forEach(l => {
-    state.leagues[l.id] = { ...l, enabled: l.id !== "championship", "laliga2" };
+    state.leagues[l.id] = { ...l, enabled: l.id !== "championship" };
   });
 }
 
