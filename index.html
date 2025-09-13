@@ -211,7 +211,7 @@ const FALLBACK_LEAGUES = {
     { name: "Wolves", short: "WOL" }, { name: "Nottingham Forest", short: "NFO" }
   ] },
   championship: { id:"championship", country:"England", label:"EFL Championship", file:"leagues/championship.js", clubs:[] },
-  laliga: { id:"laliga", country:"Spain", label:"La Liga", file:"leagues/la-liga.js", clubs:[
+  laliga: { id:"laliga", country:"Spain", label:"LALIGA", file:"leagues/la-liga.js", clubs:[
     { name: "Real Madrid", short: "RMA" }, { name: "Barcelona", short: "BAR" }, { name: "Atlético de Madrid", short: "ATM" },
     { name: "Athletic Bilbao", short: "ATH" }, { name: "Real Sociedad", short: "RSO" }, { name: "Villarreal", short: "VIL" },
     { name: "Sevilla", short: "SEV" }, { name: "Real Betis", short: "BET" }, { name: "Valencia", short: "VAL" },
@@ -220,6 +220,7 @@ const FALLBACK_LEAGUES = {
     { name: "Elche", short: "ELC" }, { name: "Oviedo", short: "OVI" }, { name: "Alavés", short: "ALA" },
     { name: "Osasuna", short: "OSA" }, { name: "Espanyol", short: "ESP" }
   ] },
+  laliga2: { id:"laliga2", country:"Spain", label:"LALIGA2", file:"leagues/la-liga2.js", clubs:[] },
   bundesliga: { id:"bundesliga", country:"Germany", label:"Bundesliga", file:"leagues/bundesliga.js", clubs:[
     { name: "Bayern Munich", short: "FCB" }, { name: "Borussia Dortmund", short: "BVB" }, { name: "Bayer Leverkusen", short: "B04" },
     { name: "RB Leipzig", short: "RBL" }, { name: "Eintracht Frankfurt", short: "SGE" }, { name: "VfB Stuttgart", short: "VFB" },
@@ -266,7 +267,7 @@ const closeSettings = document.getElementById('closeSettings');
 
 function initLeagues(){
   Object.values(FALLBACK_LEAGUES).forEach(l => {
-    state.leagues[l.id] = { ...l, enabled: l.id !== "championship" };
+    state.leagues[l.id] = { ...l, enabled: l.id !== "championship", "laliga2" };
   });
 }
 
